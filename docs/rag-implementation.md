@@ -73,8 +73,8 @@ Streaming response → frontend (app/page.tsx)
 
 ## Key Design Decisions
 
-### Local JSON store (not Supabase)
-The knowledge base has 79 chunks. Loading 4.7 MB of JSON into RAM and doing cosine similarity in Node.js takes ~5 ms — fast enough that there's no reason to introduce a database. The natural upgrade path is Supabase with pgvector when the knowledge base grows past a few thousand chunks.
+### Local JSON store
+The knowledge base has 79 chunks. Loading 4.7 MB of JSON into RAM and doing cosine similarity in Node.js takes ~5 ms — fast enough that there's no reason to introduce a database. The natural upgrade path is Cloud SQL (PostgreSQL + pgvector) on GCP when the knowledge base grows past a few thousand chunks.
 
 ### Chunking by heading
 Splitting on `##` / `###` headings means each chunk covers one topic. A whole-document embedding averages all topics into one vector, which gives poor retrieval. Heading-based chunks produce tight, topically coherent vectors.
@@ -130,6 +130,6 @@ Use the questions in `knowledge-base/questions.md`. They're grouped as:
 
 1. **Re-ranking** — after retrieval, use a cross-encoder model to re-score chunks more accurately
 2. **Hybrid search** — combine vector search with keyword search (BM25) for better recall on exact terms like product names
-3. **Supabase pgvector** — replace the JSON file with a proper vector database when the knowledge base grows
+3. **Cloud SQL pgvector (GCP)** — replace the JSON file with a proper vector database when the knowledge base grows; see docs/rag-at-scale.md for the full upgrade path
 4. **Streaming retrieval indicator** — show the user which sources were used in the answer
 5. **Chunk overlap** — when splitting by heading, include a few lines of the previous section to avoid cutting answers at boundaries

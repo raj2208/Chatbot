@@ -7,7 +7,7 @@ Every tool chosen and the reason behind it.
 | Language | TypeScript | Already used day to day — no context switch |
 | LLM | Google Gemini (free tier) | Free, handles both LLM and embeddings, swap for Claude later is a one-line change |
 | Embeddings | Google Gemini embedding API | Same account and API key as the LLM — no second provider needed |
-| Vector database | Supabase (pgvector) | Free tier, Postgres-based so it uses existing database knowledge |
+| Vector database | Local JSON → Cloud SQL pgvector (GCP) | Zero infra for dev; Cloud SQL for production — Postgres-based, already on GCP |
 | App framework | Next.js | Works natively with the Vercel AI SDK |
 | AI SDK | Vercel AI SDK | TypeScript-native, clean streaming, easy to switch LLM providers |
 
@@ -17,7 +17,7 @@ Claude requires a paid Anthropic API account. This is a separate product from a 
 
 ## Why markdown files as the knowledge base
 
-Markdown files live in a `knowledge-base/` folder and are the chatbot's brain. The ingest script reads them, chunks them by heading, embeds each chunk, and stores the vectors in Supabase. This is "documentation as code" — the docs are the data source. The markdown approach changes nothing about the RAG architecture; only the ingest step reads files instead of a database.
+Markdown files live in a `knowledge-base/` folder and are the chatbot's brain. The ingest script reads them, chunks them by heading, embeds each chunk, and stores the vectors in a local JSON file (dev) or Cloud SQL pgvector (production). This is "documentation as code" — the docs are the data source. The markdown approach changes nothing about the RAG architecture; only the ingest step reads files instead of a database.
 
 ## Why Vercel AI SDK
 

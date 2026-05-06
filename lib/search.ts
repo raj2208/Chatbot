@@ -25,8 +25,9 @@
 // Pros: zero infrastructure, works offline, easy to inspect.
 // Cons: whole file loads into RAM; doesn't scale past ~10,000 chunks.
 // For this knowledge base (< 100 chunks) it's perfectly fine.
-// The natural upgrade path is Supabase with pgvector — same concept,
-// but the similarity search runs in Postgres instead of in Node.
+// The natural upgrade path is Cloud SQL (PostgreSQL + pgvector) on GCP — same
+// concept, but the similarity search runs in Postgres instead of in Node.
+// See docs/rag-at-scale.md for the full GCP migration path.
 
 import fs from "fs";
 import path from "path";
